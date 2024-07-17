@@ -1,0 +1,1421 @@
+LANG="zh_CN.GBK"
+LANG="en_US.UTF-8"
+改变编码方法2：
+vi /etc/profile
+export LC_ALL="zh_CN.GBK"
+export LANG="zh_CN.GBK"
+=========卸载Linux JDK====================
+cd /usr/local
+rm -rf java
+vi /etc/profile 修改JDK 环境变量 source /etc/profile
+安装JDK环境变量配置=============================
+1、将jdk包放到、usr/local/java下并解压,然后编辑vim /etc/profile,加入以下配置保存:执行source /etc/profile
+JAVA_HOME=/usr/local/java/jdk1.8.0_111
+JRE_HOME=$JAVA_HOME/jre
+CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME JRE_HOME CLASSPATH PATH
+ant 的环境变量
+export PATH="/usr/local/ant/apache-ant-1.9.2/bin:$PATH"
+=============centos7 端口开放步骤===================
+我们可以输入命令查看防火墙的状态；
+firewall-cmd --state
+查看已经开放的端口：
+firewall-cmd --zone=public --list-ports
+启动防火墙：systemctl start firewalld.service
+打开8080端口：firewall-cmd --zone=public --add-port=8080/tcp --permanent
+重启防火墙:systemctl restart firewalld.service
+重新加载配置：firewall-cmd --reload
+===============centos 6 查看端口命令-==================
+查看开放的端口：/etc/init.d/iptables status
+打开指定端口:
+/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT 　　—其中80表示开放的端口
+然后保存
+/etc/rc.d/init.d/iptables save
+然后重启防火墙服务
+/etc/init.d/iptables restart
+=======================ok=======centos7添加启动项====
+chmod +x /etc/rc.d/rc.local
+ vim /etc/rc.d/rc.local
+ 示例：su - sl -c '/bin/sh /home/sl/castest/apache-tomcat-8.5.27/bin/startup.sh'
+============创建用户=====================
+1、创建用户
+
+useradd querylog
+
+2、设置密码
+
+passwd queylog
+
+3、授权sudo权限
+
+查找sudoers文件位置 whereis sudoers
+============================================
+WAS_HOME=/was8/IBM/WebSphere/AppServer
+export WAS_HOME
+
+授权所有人
+chmod 777 -R /usr/java/jdk1.8.0_152/
+改变所属主
+  chown root /u        Change the owner of /u to "root".
+  chown root:staff /u  Likewise, but also change its group to "staff".
+  chown -hR root /u    Change the owner of /u and subfiles to "root".
+  创建文件 vim filename
+修改读写权限：
+chmod 755 abc ：赋予abc权限rwxr-xr-x。
+chmod u=rwx,g=rx,o=rx abc ：同上 u=用户权限? g=组权限 o=不同组其他用户权限。
+chmod u-x,g+w abc ：给abc去除用户执行的权限，增加组写的权限。
+chmod a+r abc ：给所有用户添加读的权限。
+为其他组用户增加目录的读权限：chmod o+r test
+————————————————
+netstat -lntup 命令查看网络端口pid状态
+
+==========RPM 安装操作 =============================
+rpm -i 需要安装的包文件名 
+举例如下： 
+rpm -i example.rpm 安装 example.rpm 包； 
+
+rpm -iv example.rpm 安装 example.rpm 包并在安装过程中显示正在安装的文件信息； 
+
+rpm -ivh example.rpm 安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度； 
+
+RPM 查询操作  
+rpm -q … 
+
+附加查询命令： 
+
+a 查询所有已经安装的包以下两个附加命令用于查询安装包的信息； 
+
+i 显示安装包的信息； 
+
+l 显示安装包中的所有文件被安装到哪些目录下； 
+
+s 显示安装版中的所有文件状态及被安装到哪些目录下；以下两个附加命令用于指定需要查询的是安装包还是已安装后的文件； 
+
+p 查询的是安装包的信息； 
+
+f 查询的是已安装的某文件信息； 
+
+举例如下： 
+rpm -qa | grep tomcat4 查看 tomcat4 是否被安装； 
+rpm -qip example.rpm 查看 example.rpm 安装包的信息； 
+rpm -qif /bin/df 查看/bin/df 文件所在安装包的信息； 
+rpm -qlf /bin/df 查看/bin/df 文件所在安装包中的各个文件分别被安装到哪个目录下； 
+
+RPM 卸载操作 
+
+命令： 
+rpm -e 需要卸载的安装包 
+在卸载之前，通常需要使用rpm -q …命令查出需要卸载的安装包名称。 
+
+举例如下： 
+rpm -e tomcat4 卸载 tomcat4 软件包 
+RPM 升级操作 
+命令： rpm -U 需要升级的包 
+举例如下： 
+rpm -Uvh example.rpm 升级 example.rpm 软件包 
+=================centos7修改主机名=================
+1、我们可以通过命令“hostnamectl set-hostname 主机名”来永久修改主机名。
+hostnamectl set-hostname mycentos101
+2、还可以通过修改主机名文件（/etc/hostname）来永久修改主机名
+vim /etc/hostname
+================================网卡修改================================
+#修改这里首先是进入/etc/sysconfig/network-scripts中查看现有的配置文件:
+BOOTPROTO=static #这里将dhcp换成ststic
+ONBOOT=yes //原no,改为yes
+IPADDR=192.168.177.120 // 新增
+GATEWAY=192.168.99.12 // 新增：注意，这个网关“99”是我的路由器的网关，你要修改为你自己的网官
+NETMASK=255.255.255.0 // 新增
+NM_CONTROLLED=no // 新增
+DNS1=114.114.114.114 // 新增
+DNS2=8.8.4.4 // 新增
+UUID="4bd78ebf-ca97-4bfc-96a3-da9d94c9785f"
+
+保存退出后,重启网络服务:
+service network restart
+Restarting network (via systemctl):                        [  确定  ]
+查看当前ip:ip addr
+检查IP冲突：在同一网段内的另一台机器执行:p2p1是当前机器上的一张网卡名称
+arping 192.168.22.200 -I p2p1
+如果有unicast reply from x.x.x.x则表示网内有一台主机与本机相同
+==============shell 工具类，如查看java CPU占用最高的线程，一些脚本===================
+https://github.com/oldratlee/useful-scripts
+linux 脚本开头bash:
+#!/usr/bin/env bash
+=================================================
+oracle 分页：
+没有 order by
+SELECT *
+FROM (SELECT ROWNUM AS rowno, t.*
+          FROM DONORINFO t
+          WHERE t.BIRTHDAY BETWEEN TO_DATE ('19800101', 'yyyymmdd')
+          AND TO_DATE ('20060731', 'yyyymmdd')
+          AND ROWNUM <= page*size) table_alias
+WHERE table_alias.rowno > (page-1)*size;
+	
+有 order by :	
+	SELECT *
+FROM (SELECT ROWNUM AS rowno,r.*
+           FROM(SELECT * FROM DONORINFO t
+                    WHERE t.BIRTHDAY BETWEEN TO_DATE ('19800101', 'yyyymmdd')
+                    AND TO_DATE ('20060731', 'yyyymmdd')
+                    ORDER BY t.BIRTHDAY desc
+                   ) r
+           where ROWNUM <= page*size 
+          ) table_alias
+WHERE table_alias.rowno > (page-1)*size;	 
+
+===========================================jar 包解压、压缩命令===========
+jar -xvf test.jar 
+
+修改jar包中的配置文件：vim test.jar 选择配置文件
+
+压缩：jar -cvfm0 test.jar ./META-INF/MENIFEST.MF .
+===========tomcat 改造简单文件服务器============
+在server.xml中的Host标签中添加Context标签，dockBase是实际文件的父路径，path 是对外访问的路径
+<Context docBase="D:/tomcat" path="tmp" realoadable="true"/>
+-Dfile.encoding=UTF-8
+===============配置windos Tomcat编码================
+1、修改测试环境应用（wharf-Tomcat）tomcat的启动参数，使其编码格式变为UTF-8:
+找到{tomcat_dir}/bin/catalina.bat文件，在set JAVA_OPTS= 后添加：-Dfile.encoding=UTF-8，如下
+set JAVA_OPTS=-Dfile.encoding=UTF-8
+
+==================配置tomcat调用的虚拟机内存大小===============
+Linux
+
+　　修改TOMCAT_HOME/bin/catalina.sh 
+　　位置cygwin=false前。
+　　JAVA_OPTS="-server -Xms2048m -Xmx4096m" （仅做参考，具体数值根据自己的电脑内存配置）
+	jdk1.8 不用设置老年代大小了默认使用系统内存；也可以使用-XX:MetaspaceSize 和 -XX:MaxMetaspaceSize参数设置；
+	JAVA_OPTS='-server -Xms1024m -Xmx2048m'
+windows
+
+　　修改TOMCAT_HOME/bin/catalina.bat 
+　　第一行加上
+　　JAVA_OPTS="-server -Xms256m -Xmx512m" 
+
+Linux下修改JVM内存大小:
+
+要添加在tomcat 的bin 下catalina.sh 里，位置cygwin=false前 。注意引号要带上,红色的为新添加的.
+
+# OS specific support. $var _must_ be set to either true or false.
+
+JAVA_OPTS="-Xms256m -Xmx512m -Xss1024K -XXermSize=128m -XX:MaxPermSize=256m -Dfile.encoding=UTF-8" 
+
+cygwin=false
+ 修改GC和打印gc -XX:+UseG1GC -XX:+PrintGCDetails
+===================windows下修改JVM内存大小:=============
+
+情况一:解压版本的Tomcat, 要通过startup.bat启动tomcat才能加载配置
+
+要添加在tomcat 的bin 下catalina.bat 里
+
+rem Guess CATALINA_HOME if not defined
+
+set CURRENT_DIR=%cd%后面添加,红色的为新添加的.
+
+set JAVA_OPTS=-Xms256m -Xmx512m -XXermSize=128M -XX:MaxNewSize=256m -XX:MaxPermSize=256m -Djava.awt.headless=true
+
+java读取resources目录下的文件方法一：
+String path = this.getClass().getResource("/").getPath();
+					logger.info(path);
+					String filepath = "";
+					if (System.getProperty("os.name").contains("Windows")) {
+						logger.info(filepath);
+						filepath = path+"txn_template/REPO.docx";
+						logger.info(filepath);
+					}else {
+//					home/huangchao/apache-tomcat-8.5.9/webapps/InvestAnalysis/
+						filepath = path.substring(0, path.length() - 16);
+						logger.info(filepath);
+						filepath+="WEB-INF/classes/txn_template/REPO.docx";
+//					home/huangchao/apache-tomcat-8.5.9/webapps/InvestAnalysis/WEB-INF/classes/txn_template/REPO.docx
+						logger.info(filepath);
+					}
+二、
+
+String filepath = this.getClass().getResource("/").getPath()+ "txn_template/REPO.docx";
+读取resources下面的文件，如果用resourceUtil打包后会读取不到文件
+InputStream resourceAsStream = Util.class.getResourceAsStream("/users.properties");
+		ArrayList<String> readLines = IoUtil.readLines(resourceAsStream, "UTF-8", new ArrayList());
+to_date('2002-08-26','yyyy-mm-dd')
+=================freemarker 一些记录===============
+布尔匹配
+${foo?then('Y', 'N')}
+//判断字符串是否为空：
+<#if intros??>
+</#if>
+字符串比较：
+<#if str == "success"> 
+<#if str !== "error">
+
+<#if riskType == '无'>
+<#else>
+</#if>
+
+test/test/
+root/test
+
+====================splash 安装使用=====================================================
+#安装所需要的包：
+yum install -y yum-utils device-mapper-persistent-data lvm2
+#设置稳定存储库：
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#开始安装DOCKER CE：
+yum install docker-ce
+#启动dockers：
+systemctl start docker
+#测试安装是否正确：
+docker run hello-world
+(2)安装splash服务
+通过Docker安装Scrapinghub/splash镜像，然后启动容器，创建splash服务
+
+docker pull scrapinghub/splash
+docker run -d -p 8050:8050 scrapinghub/splash
+#通过浏览器访问8050端口验证安装是否成功
+(3)Python包Scrapy-Splash安装
+
+pip3 install scrapy-splash
+
+=============爬虫的事、===============================
+	python -m pip install --upgrade pip
+pip freeze > requirement.txt
+pip install -r requirement.txt
+# 格式化成2016-03-20 11:45:39形式
+print time.strftime("%Y-%m-%d", time.localtime()) 
+t1_str == t2_str
+
+	
+==========python获取当前文件的路径====================================
+pwd = os.getcwd()
+#当前文件的父路径
+father_path=os.path.abspath(os.path.dirname(pwd)+os.path.sep+".")
+#当前文件的前两级目录
+grader_father=os.path.abspath(os.path.dirname(pwd)+os.path.sep+"..")
+
+	由于第二步中我们在类MySpider下定义了 name ="spidertieba"  ，所以执行命令：scrapy crawl spidertieba -o items.json。 -o  指定文件。
+这样我们就会看到此目录下生成了items.json文件
+
+=============java spring读取文件的几种方法==============================
+ClassPathResource classPathResource = new ClassPathResource("excleTemplate/test.xlsx");
+InputStream inputStream =classPathResource.getInputStream();
+
+InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("excleTemplate/test.xlsx");
+InputStream inputStream = this.getClass().getResourceAsStream("/excleTemplate/test.xlsx");
+File file = ResourceUtils.getFile("classpath:excleTemplate/test.xlsx");//打成jar包运行会报错
+InputStream inputStream = new FileInputStream(file);
+ String path2 = ResourceUtils.getURL("classpath:").getPath();//获取类路径
+  System.out.println(System.getProperty("user.dir"));//获取当前jar、war运行所在路径
+  示例：获取当前运行war所在目录下的文件
+  String path = System.getProperty("user.dir")+File.separator+"123.txt";
+	        List<String> readLines = FileUtils.readLines(new File(path));
+								
+======spring 事务不起作用的三种情况：1、方法未加public修饰；2、在内部类上加事务注解；3、事务方法内捕获了异常；
+String enable = ResourceBundle.getBundle("application").getString("spring.cloud.nacos.discovery.enabled");
+手动提交事务加代码：用@autowire注入
+		DataSourceTransactionManager dataSourceTransactionManager = ApplicationContextUtility.getApplicationContext().getBean(DataSourceTransactionManager.class);
+		TransactionDefinition def = ApplicationContextUtility.getApplicationContext().getBean(TransactionDefinition.class);
+2、获取状态：		TransactionStatus transaction = dataSourceTransactionManager.getTransaction(def);
+3、提交：dataSourceTransactionManager.commit(transaction);
+=======================linux 安装docker============================
+centos 确保yum 最新 ：sudo yum update
+如果安装过旧版需要卸载旧版：sudo yum remove docker docker-common docker-selinux docker-engine
+安装依赖
+sudo yum install -y yum-utils device-mapper-persistemt-data lvm2
+设置yum 源
+sudo yum-config-manager --add-repo https://dowload.docker.com/linux/centos/docker-ce.repo
+查看所有仓库中的docker版本
+yum list docker-ce --showduplicates | sort -r
+安装docker 默认安装最新稳定版
+sudo yum install docker-ce
+启动并加入开机启动
+sudo systemctl start docker
+sudo systemctl enable docker
+验证是否安装成功
+docker version
+安装splash
+sudo docker pull scrapinghub/splash
+启动splash
+sudo docker run -p 8050:8050 -p 5023:5023 scrapinghub/splash
+window中的dockertoolbox 可以在网络中设置端口转发将宿主机端口映射到docker中的某个端口
+					
+						
+========================二、设置定时任务步骤举例：=========================================
+一、安装
+yum -y install vixie-cron
+yum -y install crontabs
+说明：
+vixie-cron 软件包是 cron 的主程序；
+crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。
+
+1、首先有一个执行任务的脚本；stopService.sh
+2、文件建完后一定要授权，否则不能执行：chmod 755  stopService.sh
+3、 crontab -e 
+ #每天23点运行；
+  0 23 * * *   /home/ruanl/a.sh >/home/sl/kill.log  写绝对路径；
+：wq 保存，退出
+ //注意单纯echo，从屏幕上看不到任何输出，从定向日志中查看是否有日志打印；
+ 
+ 在/var/spool/cron 目录下可以看到对应的corn文件；
+ 
+crontab -u //设定某个用户的cron服务，一般root用户在执行这个命令的时候需要此参数
+crontab -l //列出某个用户cron服务的详细内容
+crontab -r //删除没个用户的cron服务
+crontab -e //编辑某个用户的cron服务
+
+/sbin/service crond start //启动服务
+/sbin/service crond stop //关闭服务
+/sbin/service crond restart //重启服务
+/sbin/service crond reload //重新载入配置
+service crond status    //查看crontab服务状态
+在CentOS系统中加入开机自动启动: 
+chkconfig --level 345 crond on
+列子：
+每月每天每小时的第 0 分钟执行一次 /bin/ls :
+　　0 * * * * /bin/ls
+
+    在 12 月内, 每天的早上 6 点到 12 点中，每隔 20 分钟执行一次 /usr/bin/backup :
+　　*/20 6-12 * 12 * /usr/bin/backup
+
+   周一到周五每天下午 5:00 寄一封信给 alex_mail_name :
+　　0 17 * * 1-5 mail -s "hi" alex_mail_name < /tmp/maildata
+
+   每月每天的午夜 0 点 20 分, 2 点 20 分, 4 点 20 分....执行 echo "haha"
+　　20 0-23/2 * * * echo "haha"
+
+   晚上11点到早上8点之间每两个小时，早上8点
+　　0 23-7/2，8 * * * date
+****************** 定时任务输出文件时注意日期要加转义否则报错！！！*********
+58 23 * * * nohup sh /home/work/update.sh >> "/home/work/log/update_"date +\%Y\%m\%d".log" 2>&1 &
+============linux 删除乱码文件===========
+ls -i 列出文件的inote
+find -inum inode -delete					
+						
+=======================远程拷贝===============			
+scp /home/riskmaster/lib/RM_WebServiceServer.jar riskmaster@223.6.6.6:/home/riskmaster/lib/		
+	
+=============centos7安装python=================
+https://www.python.org/ftp/python/3.8.0/
+
+
+==================centos安装redis==============
+下载redis:$ wget http://download.redis.io/releases/redis-6.0.5.tar.gz
+$ tar xzf redis-6.0.5.tar.gz
+$ cd redis-6.0.5
+$ make
+启动：src/redis-server redis.conf
+连接：src/redis-cli
+关闭：src/redis-cli shutdown
+或者src/redis-cli -p 7001 shutdown
+
+==================centos安装MongoDB==============
+安装包
+wget https://repo.mongodb.org/yum/redhat/6/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el6.x86_64.rpm
+wget https://mirrors.tuna.tsinghua.edu.cn/mongodb/yum/el7-4.2/RPMS/mongodb-org-mongos-4.2.8-1.el7.x86_64.rpm
+wget https://mirrors.tuna.tsinghua.edu.cn/mongodb/yum/el7-4.2/RPMS/mongodb-org-shell-4.2.8-1.el7.x86_64.rpm
+wget https://mirrors.tuna.tsinghua.edu.cn/mongodb/yum/el7-4.2/RPMS/mongodb-org-tools-4.2.8-1.el7.x86_64.rpm
+# 启动服务：
+systemctl start mongodb.service
+#停止服务：
+systemctl stop mongodb.service
+#开机启动：
+systemctl enable mongodb.service
+systemctl restart mongod
+
+mongo进入创建用户
+1/终端输入mongo，首先添加管理用户，
+show dbs // 显示所有的数据库
+use admin // 切换到admin
+db.createUser({user:'root',pwd:'root',roles:['userAdminAnyDatabase']})
+db.auth('root','root')
+db.auth('admin','123456')
+
+3/创建一个库并给一个用户授权的步骤
+	mongo进入终端，执行：use admin再执行认证：db.auth('admin','123456')
+	然后创建库：use test再将库授权给用户：db.createUser({user:'test',pwd:'test',roles:['readWrite']})
+配置mongod.conf允许远程连接：
+$ vim /etc/mongod.conf
+bind_ip = 0.0.0.0
+启用权限管理：
+$ vim /etc/mongod.conf
+#security 
+security:
+  authorization: enabled
+
+二、卸载MongoDB
+1、停止服务
+systemctl mongod stop
+
+2、删除安装的包
+　　yum erase $(rpm -qa | grep mongodb-org)
+3、删除数据及日志
+　　rm -r /var/log/mongodb
+　　rm -r /var/lib/mongo
+================提交代码到gitee==================
+一：git init(后续提交不需要执行该步骤)
+二：git add --all
+三：git commit -m '提交'
+四：在gitee上建好仓库，复制仓库地址
+五：git remote add origin https://gitee.com/sunlong1/logviewer(后续提交不需要执行该步骤)
+六：git push -u origin master -f 
+输入用户名和密码即可
+如果远程代码版本较新，需要先合并到本地
+git pull origin master     //取回远程主机某个分支的更新，再与本地的指定分支合并。
+
+==============git注释乱码问题解决==========================
+设置git 的界面编码：
+git config --global gui.encoding utf-8
+设置 commit log 提交时使用 utf-8 编码：
+git config --global i18n.commitencoding utf-8
+使得在 $ git log 时将 utf-8 编码转换成 gbk 编码：
+git config --global i18n.logoutputencoding gbk
+使得 git log 可以正常显示中文：
+export LESSCHARSET=utf-8
+经过以上步骤，我们会发现可以正常显示中文注释了。
+
+========================
+
+vim 删除多行命令：
+- 将光标移动到需要删除的行，按一下ESC键，确保退出编辑模式
+- 在dd 命令前面加上要删除的行数。例如，如果要删除第4行以下的3行，请按下  3 dd
+vim 删除给定范围的行
+- 比如从第3行到第5行，按ESC，然后输入下面的 命令，然后回车。
+:3,5d
+
+======Selenium 教程======
+https://www.cnblogs.com/tester-ggf/p/12602211.html
+
+=======suse v12 设置端口开放===========
+命令方式
+1. 修改防火墙配置
+vim /etc/sysconfig/SuSEfirewall2
+在文件中找到FW_SERVICES_EXT_TCP，在其后面加上服务名或者是服务对应的端口，如SSH,FW_SERVICES_EXT_TCP=”ssh” 或 FW_SERVICES_EXT_TCP=”22″
+如果要开放多个端口则为 FW_SERVICES_EXT_TCP=”22 80 8090″
+最后，保存退出。
+
+2. 重启防火墙使生效
+rcSuSEfirewall2 restart
+3. 查看防火墙状态
+rcSuSEfirewall2 status
+4. 关闭防火墙
+systemctl stop SuSEfirewall2.service
+5. 取消开机启动防火墙
+systemctl disable SuSEfirewall2.service
+6. 开启防火墙
+systemctl start SuSEfirewall2.service
+7. 开机启动防火墙
+systemctl enable SuSEfirewall2.service
+====================宝塔=============
+Bt-Panel: http://192.168.190.101:8888/cb501bbe
+username: aaul8f58
+password: e6613717
+If you cannot access the panel,
+release the following panel port [8888] in the security group
+若无法访问面板，请检查防火墙/安全组是否有放行面板[8888]端口
+===================centos7安装nginx=================
+yum install gcc-c++
+yum install -y pcre pcre-devel
+yum install -y zlib zlib-devel
+yum install -y openssl openssl-devel
+wget -c https://nginx.org/download/nginx-1.18.0.tar.gz
+tar -zxvf nginx-1.18.0.tar.gz
+cd nginx-1.10.1
+./configure
+make
+make install
+2、启动、停止nginx
+cd /usr/local/nginx/sbin/
+./nginx 
+./nginx -s stop
+./nginx -s quit
+./nginx -s reload
+3、开机自启动
+即在rc.local增加启动代码就可以了。
+vi /etc/rc.local
+增加一行 /usr/local/nginx/sbin/nginx 设置执行权限：
+chmod 755 rc.local
+=========================oracle 驱动======
+	<dependency>
+			<groupId>com.oracle.ojdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>19.3.0.0</version>
+		</dependency>
+alibaba pmd codeAnalyzer
+https://p3c.alibaba.com/plugin/eclipse/update
+
+java -jar mybatis-generator-core-1.3.2.jar -configfile generatorConfig.xml -overwrite
+==========mybatisGenerator 修改列的映射类型
+ <table schema="MARKET_RISK" tableName="GOLD_OPTIONS" domainObjectName ="GoldOption" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="false">
+  <ignoreColumn column="TIMESTAMP"/>
+  <columnOverride column="NBR_TRADING_UNIT" javaType="java.lang.Integer"/>
+  <columnOverride column="NBR_TRADING" javaType="java.lang.Integer"/>
+  <columnOverride column="NBR_SETTLEMENT_DAYS" javaType="java.lang.Integer"/>
+ </table>
+
+====================oracle in 大于1000的写法：==========
+<select id="selectPositionsByInstrumentIDsAndDtMarket" resultMap="BaseResultMap" parameterType="map">
+    select 
+    <include refid="Base_Column_List" />
+    from positions
+    where 
+    dt_market = #{dtMarket,jdbcType=DATE} and 
+    id_instrument in
+   			 <foreach collection="instrumentIDList" item="item" index="index" open="(" close=")" separator=",">
+				<if test="(index % 999) == 998"> NULL ) OR id_instrument IN (</if>#{item}
+			</foreach>
+    
+  </select>
+ =============log4j2 的依赖==================
+ <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.8.2</version>
+		  </dependency>
+		  <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.8.2</version>
+		  </dependency>
+ 		 <dependency> <!-- 桥接：告诉Slf4j使用Log4j2 -->
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+
+=============mybatis oracle 批量删除语句================================
+  <delete id="batchDelete" parameterType="java.util.List">
+      delete from RISK_FACTOR_CHANGES 
+      <where>
+		<foreach collection="riskFactorChangeList"  index="index" item="item"  separator=" or " open="(" close=")" >
+			  DT_START=#{item.dtStart} and DT_END = #{item.dtEnd} and CD_CHANGE_TYPE = #{item.cdChangeType} and ID_RISK_FACTOR = #{item.idRiskFactor}
+		</foreach>
+      </where>
+  </delete>
+
+=============mybatis oracle 批量插入语句==list不能大于1000条需切割分页传入=======
+  	<insert id="batchInsertRiskFactorChangeList" parameterType="java.util.List">
+		  insert into RISK_FACTOR_CHANGES (DT_START, DT_END, CD_CHANGE_TYPE, 
+      ID_RISK_FACTOR, ID_RISK_FACTOR_GROUP, AMT_CHANGE)
+		<foreach collection="riskFactorChangeList" item="item" index="index"	 open="(" close=")" separator="UNION ALL">
+			SELECT
+			#{item.dtStart,jdbcType=TIMESTAMP}, #{item.dtEnd,jdbcType=TIMESTAMP}, #{item.cdChangeType,jdbcType=VARCHAR}, 
+      #{item.idRiskFactor,jdbcType=VARCHAR}, #{item.idRiskFactorGroup,jdbcType=VARCHAR}, #{item.amtChange,jdbcType=NUMERIC}
+			FROM dual
+		</foreach>
+	</insert>
+
+=============mybatis oracle 批量更新语句====特别坑，注意END两边的分号============================
+ <update id="batchUpdateCostByPrimaryKey" parameterType="java.util.List" >
+   <foreach collection="positionList" item="item" index="index" open="BEGIN" close=";END;" separator=";">
+            update positions 
+	    <trim prefix="set" suffixOverrides=","> 
+	      <if test="item.amtCost != null" >
+	        amt_cost = #{item.amtCost,jdbcType=DECIMAL},
+	      </if>
+	      <if test="item.amtResetCost != null" >
+	        amt_reset_cost = #{item.amtResetCost,jdbcType=DECIMAL},
+	      </if>
+	     </trim>
+	      where dt_market = #{item.dtMarket,jdbcType=DATE}
+	      and id_position = #{item.idPosition,jdbcType=VARCHAR}
+       </foreach>
+    </update>
+
+=============mybatis oracle 模糊查询语句================================
+ select 
+    <include refid="Base_Column_List" />
+    from BATCH_SETTING_PORT_SCENARIO
+    where  NAME_PORT_SCENARIO like concat(concat('%',${idPortScenario}),'%')
+
+=========================数据库查询重复数据==同一张表多个列============================
+SELECT * FROM entity_emotion a WHERE ((SELECT COUNT(*) FROM entity_emotion WHERE a.id_news = id_news and a.id_entity = id_entity) > 1) ORDER BY a.id_news
+
+
+
+select * from LC_JUDGEMENTS_INFO where ID in (select ID from LC_JUDGEMENTS_INFO group by Id having count(ID) > 1)
+
+DELETE
+FROM
+	LC_JUDGEMENTS_INFO
+WHERE
+	(ID) IN (
+		SELECT
+			ID
+		FROM
+			LC_JUDGEMENTS_INFO
+		GROUP BY
+			ID
+		HAVING
+			COUNT (ID) > 1
+	)
+AND ROWID NOT IN (
+	SELECT
+		MIN (ROWID)
+	FROM
+		LC_JUDGEMENTS_INFO
+	GROUP BY
+		ID
+	HAVING
+		COUNT (*) > 1
+);
+===============oracle 分组后取最新的数据====不带条件去掉where 即可======================
+
+SELECT *
+from ( SELECT t.*,row_number() OVER(PARTITION BY t.id_instrument ORDER BY t.dt_market desc) as row_flg  FROM PI_BOND_CURVE t WHERE ID_INSTRUMENT IN ('CB_122631_SH','CB_136378_SH','CB_1680254_IB') AND DT_MARKET <="TO_DATE"('2020-09-03', 'yyyy-MM-dd')) temp
+where temp.row_flg  = '1';
+
+=========oracle 分组后取最新的数据==mybatis 写法===========
+  SELECT DT_MARKET, ID_INSTRUMENT, ID_CURVE
+	from ( SELECT t.DT_MARKET, t.ID_INSTRUMENT, t.ID_CURVE,row_number() OVER(PARTITION BY t.id_instrument ORDER BY t.dt_market desc) as row_flg  
+	FROM PI_BOND_CURVE t WHERE t.ID_INSTRUMENT IN 
+	 <foreach collection="idInstruments" index="index" item="listItem" open="(" close=")" separator="," >
+          #{listItem}
+        </foreach>
+	AND DT_MARKET  <![CDATA[<=]]> #{dtMarket,jdbcType=TIMESTAMP}) temp
+	where temp.row_flg  = '1'
+	
+==================mybatis 一对多查询====================
+1、继承baseResultMap,2.写语句，property代表要填充的java属性名，column 是要到另一张查询的列和下面SQL里的名字一致
+  <resultMap id="cfSurfaceCollection" type="com.rquest.riskmaster.mktdatacloudentity.CfSurface" extends="BaseResultMap">
+  	 <collection property="cfSurfaceRiskFactors" column="ID_SURFACE" ofType="com.rquest.riskmaster.mktdatacloudentity.CfSurfaceRiskFactor" 
+  	 resultMap="com.rquest.riskmaster.mktdatacloudmapper.CfSurfaceRiskFactorMapper.BaseResultMap">
+    </collection>
+  </resultMap>
+  
+  <select id="selectCfSurfaceAndFactorsById" parameterType="map" resultMap="cfSurfaceCollection">  
+            select a.* ,b.ID_RISK_FACTOR,b.ID_SURFACE,b.CD_TENOR,b.CD_STRIKE,b.CD_OPTION_TENOR,b.CD_SWAP_TENOR
+            from CF_SURFACES a left join CF_SURFACE_RISK_FACTOR b
+            on a.ID_SURFACE   =  b.ID_SURFACE where a.ID_SURFACE=#{idSurface}              
+   </select>
+==========2、另一种方式是在collection中调用另一个mapper的方法
+   <!--  一对多 嵌套 查询 -->
+    <select id="findCustomerWithOrders2" parameterType="int" resultMap="findPersonWithOrdersResult2">
+		SELECT t.*
+		from t_customer t
+		WHERE  t.id = #{id}
+	</select>
+    <resultMap type="mybatis.pojo.Customer" id="findPersonWithOrdersResult2">
+        <id property="id" column="id" />
+        <result property="username" column="username"/>
+        <result property="jobs" column="jobs"/>
+        <collection property="ordersList" ofType="mybatis.pojo.Orders" column="id"
+                    select="mybatis.mapper.OrdersMapper.findOrdersByCustomerId">
+        </collection>
+    </resultMap>
+=======================创建Oracle序列的sql=====================
+
+   CREATE SEQUENCE  "MARKET_RISK_HONGTA"."SEQ_COUNTERPARTY"  MINVALUE 1 MAXVALUE 99999999999999999999999999 INCREMENT BY 1 START WITH 10 CACHE 20 ORDER  NOCYCLE   GLOBAL ;
+
+====================java JDK jps jstack 工具使用命令=================================
+jps -lm 
+-q 只显示pid，-m 输出传递给main 方法的参数，-l 输出应用程序main class的完整package名 或者 应用程序的jar文件完整路径名，-v 输出传递给JVM的参数 
+jstack 查看命令：先是有jps查看进程号：然后使用jstack 查看堆栈信息：jstack pid;
+====================================MYSQL 链接===========================
+jdbc:mysql://192.168.22.130:3306/invest_analysis_dyrcb?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+mysql 8.0连接：jdbc.market_data_cloud.url=jdbc:mysql://192.168.22.130:3306/market_data?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+MySQL8.0驱动类变更为：jdbc.mysqlDriverClassName=com.mysql.cj.jdbc.Driver
+com.mysql.jdbc.Driver 是 mysql-connector-java 5中的，
+
+com.mysql.cj.jdbc.Driver 是 mysql-connector-java 6中的
+====================mysql 的一些常用操作==================================
+-- 修改列类型
+SELECT 
+concat('ALTER TABLE ',table_schema,'.',table_name,' MODIFY COLUMN ',COLUMN_name,' decimal(24, 6) ',NU,' COMMENT ''',IFNULL(column_comment,""),''';')
+FROM (
+SELECT
+ table_schema,
+ table_name,
+ COLUMN_name,
+ column_type,
+ column_comment,
+CASE is_nullable WHEN 'YES' THEN 'NULL'  WHEN 'NO' THEN 'NOT NULL' END  AS NU
+FROM
+ information_schema.COLUMNS 
+WHERE
+ table_schema IN (  'market_risk_kf' ) 
+ AND data_type = 'decimal' 
+ AND column_type = 'decimal(18,6)' ) A			
+
+ ----------------------------------------创建函数循环执行sql===============================================
+ -- 创建函数clean_data_tradeDt注意替换用户
+CREATE DEFINER=`mrm`@`%` PROCEDURE `clean_data_tradeDt`(IN `table_name` varchar(100),IN `old_table_name` varchar(100),IN `field` varchar(100),IN `formatDt` varchar(100))
+BEGIN
+DECLARE dtstart datetime;
+	DECLARE dtEnd datetime;
+	DECLARE row_num int DEFAULT 1;
+	DECLARE years VARCHAR(4);
+	DECLARE maxdt datetime;
+	declare SQL_FOR_SELECT varchar(5000);
+	set dtstart = date_sub(CURDATE(),interval 1 YEAR);
+	set dtEnd = date_add(dtstart,interval 1 day);
+	set maxdt = CURDATE();
+	
+		WHILE dtstart <= maxdt DO
+			set SQL_FOR_SELECT = CONCAT("insert into ",table_name," select * from ",old_table_name," where ",field," >= '",date_format(dtstart,formatDt),"'","  and ",field," < '",date_format(dtEnd,formatDt),"'");
+			set @sql = SQL_FOR_SELECT;
+      PREPARE stmt FROM @sql;
+      EXECUTE stmt ;
+      deallocate prepare stmt;
+			
+			commit;
+			set dtstart = DATE_ADD(dtstart,INTERVAL 1 DAY);	
+			set dtEnd = date_add(dtstart,interval 1 day);
+		END WHILE;
+
+END
+-- 调用函数
+CALL clean_data_tradeDt('w_cbondanalysiscsi_tmp','w_cbondanalysiscsi','OPDATE','%Y-%m-%d');
+ =============================================end==========================================================
+----导出一张表============================================导数据sql================================================
+mysqldump -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf positions > positions.sql
+
+----导出多张表
+mysqldump -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf positions table_name1 table_name2 > positions.sql
+
+----导出数据库
+
+mysqldump -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf | gzip > market_risk_kf.sql.gz
+
+
+---移动数据库
+mysqldump -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf | mysql -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_sit
+
+
+----导入数据
+
+gunzip market_risk_kf.sql.gz
+
+mysql -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf < market_risk_kf.sql
+
+---移动一张表
+mysqldump -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_sit 表名  | mysql -h172.25.162.6 -P3306 -umrm_kf -pmrm_kf1626 market_risk_kf
+ 
+ ==== 查询表名sql======================
+ select TABLE_NAME from information_schema.`TABLES` where table_schema='bank_inside_data' AND TABLE_NAME LIKE 'w_%'
+  查询某个表的所有列，查询所有是*
+select COLUMN_NAME,COLUMN_COMMENT,COLUMN_TYPE FROM information_schema.COLUMNS WHERE table_schema='market_risk_std' AND TABLE_NAME = 'std_rpt_036_001_fx_general'
+==== 添加注释
+ ALTER TABLE `market_risk_std`.`std_rpt_default_risk_csr_ns` MODIFY COLUMN `AMT_CORPORATION` decimal(24, 6) NULL DEFAULT NULL COMMENT '公司金额' ;
+
+=====================oracle 查询DDL及索引主键============
+SELECT to_char(DBMS_METADATA.GET_DDL(OBJECT_TYPE, object_name)) FROM all_OBJECTS where OBJECT_TYPE = 'TABLE' and owner = 'MARKET_RISK_NJYH' and object_name = 'SIMULATED_PORTFOLIO_PNL';
+
+SELECT to_char(dbms_Metadata.get_dependent_ddl(object_type => 'INDEX',base_object_name => 'SIMULATED_PORTFOLIO_PNL'))
+FROM all_OBJECTS where OBJECT_TYPE = 'TABLE' and owner = 'MARKET_RISK_NJYH' and object_name = 'SIMULATED_PORTFOLIO_PNL'; 
+===========================oracle 查询列及对应的注释形成map==============
+
+select 
+      ut.COLUMN_NAME,--字段名称
+      uc.comments,--字段注释
+      ut.DATA_TYPE,--字典类型
+      ut.DATA_LENGTH,--字典长度
+      ut.NULLABLE--是否为空
+from user_tab_columns  ut
+inner JOIN user_col_comments uc
+on ut.TABLE_NAME  = uc.table_name and ut.COLUMN_NAME = uc.column_name
+where ut.Table_Name='TXNS_FP_FX_SPOT' 
+order by ut.column_name
+--获取表字段：
+
+select * 
+from user_tab_columns 
+where Table_Name='RC_METADATA' 
+order by column_name
+
+--获取表注释：
+
+select * 
+from user_tab_comments 
+where Table_Name='RC_METADATA'
+order by Table_Name
+
+--获取字段注释：
+select * 
+from user_col_comments 
+where Table_Name='RC_METADATA'
+order by column_name
+-- 获取表的主键语句
+select
+col.column_name
+from
+user_constraints con,user_cons_columns col
+where
+con.constraint_name=col.constraint_name and con.constraint_type='P'
+and col.table_name='TXNS'
+=====================Oracle和Java数据类型对应关系表=========================
+oracle字段类型			java数据类型	
+varchart2				String	
+number(1)				boolean	
+number(2)				byte	
+number(3)-number(4)		short	
+number(5)-number(9)		integer
+number(10)-number(18)	long
+number(19)-number(38)	BigDecimal
+number					BigDecimal	
+char					String	
+date					Timestamp
+blob					Object
+================接口幂等性的方法===========================================
+1、全局分布式唯一ID；
+2、用于更新操作，添加version字段：例如：UPDATE my_table SET price=price+50,version=version+1 WHERE id=1 AND version=5
+3、防重 Token 令牌实现幂等性，防止重复提交：
+简单的说就是调用方在调用接口的时候先向后端请求一个全局ID（Token），请求的时候携带这个全局ID一起请求（Token最好将其放到Headers中），后端需要对这个Token作为Key，用户信息作为Value到Redis中进行键值内容校验，如果Key存在且Value匹配就执行删除命令，然后正常执行后面的业务逻辑。如果不存在对应的Key或Value不匹配就返回重复执行的错误信息，这样来保证幂等操作。
+====================java 日志打印堆栈信息=====================
+使用Apache commons库
+log.error(ExceptionUtils.getStackTrace(e));
+==============查看jvm 大对象的内存占用==============
+1、查看前20个大对象的内存占用情况：jmap -histo <进程号> | head -n 20 
+执行如下命令: jmap -histo:live 10293| head -20 查看进程中占用资源最大的前20个对象，live表示活跃的对象
+2、查看JVM内存消耗和GC情况：jstat -gcutil 17708 1000
+3、Dump内存，查看对象消耗，这个是 最直接准确的，当然操作也繁琐些。
+$ jmap -dump:file=heap.bin <进程号> 
+或：jmap -dump:live,format=b,file=a.hprof pid
+然后用工具分析Dump文件，可以用工具MAT。一般很容易就看到内存泄漏对象。
+通过查看对象引用关系，可以分析出内存泄漏的原因。MAT(MemoryAnalyzerTool)，一个基于Eclipse的内存分析工具，是一个快速、功能丰富的JAVA heap分析工具，它可以帮助我们查找内存泄漏和减少内存消耗。
+4、jmap -heap 《PID》 查看堆配置参数及当前占用情况
+=============六种状态导致线程off-CPU的状态的情况非常多，我们进一步将off-CPU状态进行扩展有利于进一步分析问题
+执行（Running）：在CPU 上。
+可运行（Runnable）：等待轮到上CPU。
+匿名换页（Swapping）：可运行，但是因等待匿名换页而受阻。
+睡眠（Sleep）：等待包括网络、块设备和数据/文本页换入在内的I/O。
+锁（Lock）：等待获取同步锁（等待其他线程）。
+空闲（Idle）：等待工作。
+============jstack 命令查看线程信息=============
+将jstack堆栈信息生成到文件中，通过命令将信息 打入到文件中 jstack pid >> /home/test.txt
+我们再用IBM Thread and Monitor Dump Analyzer for Java这个工具来分析。这里可以清晰的看到线程数状态统计，和每个线程的状态。
+	dump 文件里，值得关注的线程状态有：
+	死锁，Deadlock（重点关注）
+	执行中，Runnable
+	等待资源，Waiting on condition（重点关注）
+	等待获取监视器，Waiting on monitor entry（重点关注）
+	暂停，Suspended
+	对象等待中，Object.wait() 或 TIMED_WAITING
+	阻塞，Blocked（重点关注）
+	停止，Parked
+=================阿里 Arthas使用authas是一个jar包，可以直接下载后运行=====================
+安装：wget https://alibaba.github.io/arthas/arthas-boot.jar
+	java -jar arthas-boot.jar
+	官网：https://arthas.aliyun.com/
+	1、dashboard 这个面板会实时刷新，其中包括线程信息、内存信息、gc信息、还有一些运行时的数据。另外，当运行在Ali-tomcat时，会显示当前tomcat的实时信息，如HTTP请求的qps, rt, 错误数, 线程池信息等等
+	1，watch com.zhangna.Test test returnObj  监听方法的返回值
+	2，trace com.zhangna.Test test  查看方法各个阶段的调用时长
+	3，thread  列出所有的线程信息，并把CPU使用率高的线程排在最前面，
+	4，使用 tt -t com.zhangna.Test test -n 2  
+	5, thread -b 找出当前阻塞其他线程的线程
+	6, thread -n 5 列出cpu使用率前5 的线程
+	7, watch com.zhangna.Test test "params[0]"  查看方法的入参
+	8，jvm  查看当前jvm信息
+	9、反编译指定已加载类的源码，jad demo.MathGame
+	10、monitor
+		monitor命令可以监控方法的执行情况。比如调用成功次数，失败次数，失败率、平均执行时间等等。默认120秒输出一次，也就是说，当我们输入monitor命令之后，每120秒就会输出一次统计结果。
+		通过-c参数可以修改输出频率，支持通配符和正则表达式。 例如：monitor -c 5 demo.MathGame primeFactors
+	11、dump 如果内容使用率在不断上升，而且gc后也不下降，后面还发现gc越来越频繁，很可能就是内存泄漏了。这个时候我们可以直接用heapdump命令把内存快照dump出来，作用和jmap工具一样
+		命令：heapdump --live /root/jvm.hprof 然后把得到的dump文件导入eclipse，用MAT插件分析就行了。
+		jhat dump.hprof ，生成文件，成功后我们就可以通过IP+端口进行访问了
+		C:\Users\sunlong\Desktop\abc.hprof
+		D:\software\JDK\arthas-bin\abc.hprof
+==============================MySQL压缩版安装==================================
+一，下载MySQL5.7.31版本的压缩包
+	下载地址：https://dev.mysql.com/downloads/mysql/
+二，解压压缩包
+	博主这里存放的位置是：E:\environment\mysql-5.7.31-winx64
+	在该目录下新建一个my.ini文件，如下图所示：
+	在my.ini文件中粘贴下面的代码，其中datadir会在指定的位置下生成一个data目录。
+
+[mysql]
+
+#设置客户端默认字符集
+default-character-set=utf8
+[mysqld]
+#设置3306端口
+port = 3306 
+#允许最大连接数
+max_connections=200
+#设置服务端默认字符集
+character-set-server=utf8
+#设置默认存储引擎
+default-storage-engine=INNODB
+# 设置mysql的安装目录
+basedir=E:\environment\mysql-5.7.31-winx64 
+# 设置mysql数据库的数据的存放目录
+datadir=E:\environment\mysql-5.7.31-winx64\data
+# 跳过验证
+skip-grant-tables
+三，添加环境变量
+	在PATH后追加MySQL的可执行目录路径;E:\environment\mysql-5.7.31-winx64\bin
+	注意，这里的位置显示不全，追加的时候记得在路径前加分号;
+四，用管理员身份打开命令窗口并且切换到bin目录下
+进入到MySQL的bin目录以后，输入mysqld --initialize命令，
+就会在E:\environment\mysql-5.7.31-winx64位置下生产一个data的目录，
+输入mysqld --install命令
+输入net start mysql命令来启动MySQL的服务
+五，进入数据库并且修改密码
+	注意，必须启动了服务才可以进入数据库
+	查看MySQL服务的步骤：鼠标右键计算机-->管理-->展开服务和应用程序-->服务
+接下来的步骤操作如下：
+在命令窗口输入mysql -u root -p，然后直接回车就行，不需要输入密码。
+
+进入MySQL以后，输入use mysql，意思就是使用mysql这个数据库。
+输入update mysql.user set authentication_string=password('123456') where user='root';更改密码。
+输入flush privileges;命令刷新权限
+
+然后在my.ini文件中的最后一行用井号#注释掉skip-grant-tables。
+重启服务net stop mysql，net start mysql。
+
+六，END
+如果出现以下的错误：
+
+ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
+可以使用以下指令更改密码为123456：
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456' PASSWORD EXPIRE NEVER;
+再次刷新权限：
+flush privileges;
+最后就大功告成了。
+七开启远程连接：
+	mysql -u root -p进入后输入：use mysql;
+	开启远程命令：GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+	刷新权限：flush privileges;	
+	重启：service mysqld restart
+八：密码过期问题
+	mysql -u root -p进入后登录后执行set password = password('123456')
+==============如果要重新安装需卸载linux上的mysql======================
+之前在安装过程中，老是失败。如果想重新安装，则需要将mysql相关的全部删除掉。
+1、检查安装的mysql组件
+rpm -qa | grep -i mysql
+2、将查询出来的文件逐个删除，如
+
+yum remove mysql-community-common-5.7.32-1.el7.x86_64
+yum remove mysql-community-release-el6-5.noarch
+3、删除mysql相关文件
+
+yum remove mysql mysql-server mysql-libs mysql-server
+rm -rf /var/lib/mysq
+rm /etc/my.cnf
+rm –rf /usr/lib64/mysql
+rm -rf /etc/yum.repos.d/mysql*
+rm -rf mysql-community-release-el6-5.noarch.rpm
+4、查找残留目录，然后使用rm命令逐一删除
+whereis mysql
+====================================github加速地址及其他方法============================================
+1. GitHub 镜像访问
+这里提供两个最常用的镜像地址：
+https://github.com.cnpmjs.org
+https://hub.fastgit.org
+也就是说上面的镜像就是一个克隆版的 GitHub，你可以访问上面的镜像网站，网站的内容跟 GitHub 是完整同步的镜像，然后在这个网站里面进行下载克隆等操作。
+
+2. GitHub 文件加速
+1. 打开 www.ipaddress.com 查询下面四个网站的 IP 。
+https://github.com/
+https://assets-cdn.github.com/
+http://global.ssl.fastly.net/
+codeload.github.com
+
+把这四个网站的地址复制到刚刚的完整进行查询，找到 Windows下的 hosts 文件，进行 DNS 映射。:
+
+
+3. Github 加速下载
+只需要复制当前 GitHub 地址粘贴到输入框中就可以代理加速下载！
+地址：http://toolwa.com/github/
+4. 加速你的 Github
+https://github.zhlh6.cn
+
+
+输入 Github 仓库地址，使用生成的地址进行 git ssh 等操作
+5. 谷歌浏览器 GitHub 加速插件(推荐)
+如果小伙伴在线安装不便，可以在公众号后台回复 github加速。
+6. GitHub raw 加速
+GitHub raw 域名并非 github.com 而是 raw.githubusercontent.com，上方的 GitHub 加速如果不能加速这个域名，那么可以使用 Static CDN 提供的反代服务。
+将 raw.githubusercontent.com 替换为 raw.staticdn.net 即可加速。
+7. GitHub + Jsdelivr
+jsdelivr 唯一美中不足的就是它不能获取 exe 文件以及 Release 处附加的 exe 和 dmg 文件。
+
+也就是说如果 exe 文件是附加在 Release 处但是没有在 code 里面的话是无法获取的。所以只能当作静态文件 cdn 用途，而不能作为 Release 加速下载的用途。
+基本原理：
+
+=======================利用消息中间件 RocketMQ 来实现消息事务。=====================================
+第一步：A 系统发送一个消息到 MQ，MQ将消息状态标记为 prepared（预备状态，半消息），该消息无法被订阅。
+第二步：MQ 响应 A 系统，告诉 A 系统已经接收到消息了。
+第三步：A 系统执行本地事务。
+第四步：若 A 系统执行本地事务成功，将 prepared 消息改为 commit（提交事务消息），B 系统就可以订阅到消息了。
+第五步：MQ 也会定时轮询所有 prepared的消息，回调 A 系统，让 A 系统告诉 MQ 本地事务处理得怎么样了，是继续等待还是回滚。
+第六步：A 系统检查本地事务的执行结果。
+第七步：若 A 系统执行本地事务失败，则 MQ 收到 Rollback 信号，丢弃消息。若执行本地事务成功，则 MQ 收到 Commit 信号。
+B 系统收到消息后，开始执行本地事务，如果执行失败，则自动不断重试直到成功。或 B 系统采取回滚的方式，同时要通过其他方式通知 A 系统也进行回滚。
+B 系统需要保证幂等性。
+=================拜占庭将军问题==================
+通过上面的演示，我们知道了如何解决拜占庭将军问题。其实兰伯特在他的论文中也提到过如何解决。
+如果叛将人数为 m，将军数 n >= 3m + 1，那么就可以解决拜占庭将军问题。
+前提条件：叛将数 m 一致，需要进行 m + 1 轮的作战协商。
+
+===================================vue+webpack 创建===================
+1：确认必要环境已安装
+
+vscode,和nodejs必须安装好
+vscode下载地址：https://code.visualstudio.com/Download
+nodejs下载地址：https://nodejs.org/en/download这里写自定义目录标题)
+
+2：在本地创建一个存放工程的目录
+
+我这里放到d:\usr\myvue
+
+3：使用vscode打开上一步创建的文件夹
+
+4：安装vue-cli
+
+vue-cli可以帮助我们快速构建vue项目。
+打开终端>新建终端 执行命令：npm install -g vue-cli
+
+5：安装webpack
+
+webpack是js的打包工具
+在终端中执行命令：npm install -g webpack
+
+6：创建项目
+
+终端中输入：vue init webpack myvue
+如果报如下错误：禁止运行脚本。。。
+==解决办法：
+a：在windows系统中打到windows powerShell,并以管理员身份运行它
+b：输入set-ExecutionPolicy RemoteSigned 回车
+c：输入y确认
+d：再从第五步重新执行即可
+
+7：运行项目
+
+执行命令：cd myvue
+执行命令：npm run dev
+终端出现浏览器访问地址：http://localhost:8080
+说明项目已经创建成功 vscode左侧的目录就会出现vue项目的相关文件夹了
+
+8：项目打包发布线上
+
+重新打开一个终端
+输入命令：npm run build
+会在项目目录中生成一个dist的文件夹，将此文件夹放到nginx容器中即可运行。
+
+===================================vue页面定时刷新==========================
+项目中我们经常需要实现轮询-每隔几十秒请求一次接口刷新数据
+// 每隔3秒请求一次数据
+data() {
+    return {
+      num: 0
+    };
+  },
+  created() {
+    // 实现轮询调用getNewMessage方法
+    window.setInterval(() => {
+      setTimeout(this.getNewMessage(), 0);
+    }, 3000);
+  },
+  methods: {
+    // 请求是否有新消息
+    getNewMessage: function() {
+      console.log("请求" + this.num++ + "次");
+    }
+  }
+====================java 队列=========================
+非阻塞队列常用的有三个：LinkedList、PriorityQueue和ConcurrentLinkedQueue
+Java中阻塞队列都是实现了BlockingQueue接口的。常有的有七个：ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue、DelayQueue、SynchronousQueue、LinkedTransferQueue、LinkedBlockingDeque。
+
+========================kafuka==================================================
+Kafka 是一个分布式流式处理平台。这到底是什么意思呢？
+流平台具有三个关键功能：
+消息队列：发布和订阅消息流，这个功能类似于消息队列，这也是 Kafka 也被归类为消息队列的原因。
+容错的持久方式存储记录消息流： Kafka 会把消息持久化到磁盘，有效避免了消息丢失的风险·。
+流式处理平台： 在消息发布的时候进行处理，Kafka 提供了一个完整的流式处理类库。
+Kafka 主要有两大应用场景：
+消息队列 ：建立实时流数据管道，以可靠地在系统或应用程序之间获取数据。
+数据处理： 构建实时的流数据处理程序来转换或处理数据流。
+什么是Producer、Consumer、Broker、Topic、Partition？
+Kafka 将生产者发布的消息发送到 Topic（主题） 中，需要这些消息的消费者可以订阅这些 Topic（主题），如下图所示：
+总结一下，对于如何保证 Kafka 中消息消费的顺序，有了下面两种方法：
+1 个 Topic 只对应一个 Partition。
+（推荐）发送消息的时候指定 key/Partition。
+当然不仅仅只有上面两种方法，上面两种方法是我觉得比较好理解的，
+
+========================================rabbitmq介绍及使用==========================
+常用的交换机有以下三种，因为消费者是从队列获取信息的，队列是绑定交换机的（一般）
+1、Direct Exchange?直连型交换机，根据消息携带的路由键将消息投递给对应队列。
+
+大致流程，有一个队列绑定到一个直连交换机上，同时赋予一个路由键 routing key 。
+然后当一个消息携带着路由值为X，这个消息通过生产者发送给交换机时，交换机就会根据这个路由值X去寻找绑定值也是X的队列。
+
+2、Fanout Exchange扇型交换机，这个交换机没有路由键概念，就算你绑了路由键也是无视的。 这个交换机在接收到消息后，会直接转发到绑定到它上面的所有队列。
+
+3、Topic Exchange主题交换机，这个交换机其实跟直连交换机流程差不多，但是它的特点就是在它的路由键和绑定键之间是有规则的。
+简单地介绍下规则：
+*??(星号) 用来表示一个单词 (必须出现的)
+#??(井号) 用来表示任意数量（零个或多个）单词
+通配的绑定键是跟队列进行绑定的，举个小例子
+队列Q1 绑定键为 *.TT.*? ? ? ? ? 队列Q2绑定键为? TT.#
+如果一条消息携带的路由键为 A.TT.B，那么队列Q1将会收到；
+如果一条消息携带的路由键为TT.AA.BB，那么队列Q2将会收到；
+
+主题交换机是非常强大的，为啥这么膨胀？
+当一个队列的绑定键为 "#"（井号） 的时候，这个队列将会无视消息的路由键，接收所有的消息。
+当 * (星号) 和 # (井号) 这两个特殊字符都未在绑定键中出现的时候，此时主题交换机就拥有的直连交换机的行为。
+所以主题交换机也就实现了扇形交换机的功能，和直连交换机的功能。
+
+====================自定义spring-boot-starter组件===========================
+命名规范
+自定义 starter，工程命名格式为{xxx}-spring-boot-starter。
+官方starter，工程命名格式为spring-boot-starter-{xxx}。
+创建流程
+定义核心业务类，这是该 Starter 存在的意义。
+定义自动配置类，其完成对核心业务类的实例化。
+定义装配类，自动装配需要注入的对象
+若核心业务类中需要从配置文件获取配置数据，还需要定义一个用于封装配置文件中相关属性的类。
+定义 META-INF/spring.factories 配置文件，用于对自动配置类进行注册。
+
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+teststarter.service.impl.ShareAutoConfiguration
+
+=========================单点登录SSO认证方式================================================
+实现方式一：父域 Cookie
+在将具体实现之前，我们先来聊一聊 Cookie 的作用域。
+
+Cookie 的作用域由 domain 属性和 path 属性共同决定。domain 属性的有效值为当前域或其父域的域名/IP地址，在 Tomcat 中，domain 属性默认为当前域的域名/IP地址。path 属性的有效值是以“/”开头的路径，在 Tomcat 中，path 属性默认为当前 Web 应用的上下文路径。
+
+如果将 Cookie 的 domain 属性设置为当前域的父域，那么就认为它是父域 Cookie。Cookie 有一个特点，即父域中的 Cookie 被子域所共享，换言之，子域会自动继承父域中的Cookie。
+
+利用 Cookie 的这个特点，不难想到，将 Session ID（或 Token）保存到父域中不就行了。没错，我们只需要将 Cookie 的 domain 属性设置为父域的域名（主域名），同时将 Cookie 的 path 属性设置为根路径，这样所有的子域应用就都可以访问到这个 Cookie 了。不过这要求应用系统的域名需建立在一个共同的主域名之下，如 tieba.baidu.com 和 map.baidu.com，它们都建立在 baidu.com 这个主域名之下，那么它们就可以通过这种方式来实现单点登录。
+
+***总结：此种实现方式比较简单，但不支持跨主域名。
+
+实现方式二：认证中心
+我们可以部署一个认证中心，认证中心就是一个专门负责处理登录请求的独立的 Web 服务。
+
+用户统一在认证中心进行登录，登录成功后，认证中心记录用户的登录状态，并将 Token 写入 Cookie。（注意这个 Cookie 是认证中心的，应用系统是访问不到的。）
+
+应用系统检查当前请求有没有 Token，如果没有，说明用户在当前系统中尚未登录，那么就将页面跳转至认证中心。由于这个操作会将认证中心的 Cookie 自动带过去，因此，认证中心能够根据 Cookie 知道用户是否已经登录过了。如果认证中心发现用户尚未登录，则返回登录页面，等待用户登录，如果发现用户已经登录过了，就不会让用户再次登录了，而是会跳转回目标 URL ，并在跳转前生成一个 Token，拼接在目标 URL 的后面，回传给目标应用系统。
+
+应用系统拿到 Token 之后，还需要向认证中心确认下 Token 的合法性，防止用户伪造。确认无误后，应用系统记录用户的登录状态，并将 Token 写入 Cookie，然后给本次访问放行。（注意这个 Cookie 是当前应用系统的，其他应用系统是访问不到的。）当用户再次访问当前应用系统时，就会自动带上这个 Token，应用系统验证 Token 发现用户已登录，于是就不会有认证中心什么事了。
+二、当用户登录另一个应用时，cas客户端会重定向到sso登录地址，此时认证中心发现携带的cookie已经有token(因为第一次登录成功SSO对应的域名下已经有cookie了)，比对无误后将token返回给浏览器写入应用下的cookie并重定向到应用地址，应用将携带的cookie中的token到认证中心比对，确认无误后放行；因此不需要再次登录即可访问；
+
+Apereo CAS 是一个企业级单点登录系统，其中 CAS 的意思是”Central Authentication Service“。它最初是耶鲁大学实验室的项目，后来转让给了 JASIG 组织，项目更名为 JASIG CAS，后来该组织并入了Apereo 基金会，项目也随之更名为 Apereo CAS。
+总结：此种实现方式相对复杂，支持跨域，扩展性好，是单点登录的标准做法。
+
+=======================================Just do it ===============================================
+============ehcache key  生成==================
+@Cacheable(key = "#page+'-'+#pageSize")
+public List<User> findAllUsers(int page,int pageSize) {
+    int pageStart = (page-1)*pageSize;
+    return userMapper.findAllUsers(pageStart,pageSize);
+}
+===================nacos 单机启动 sh startup.sh -m standalone/startup.cmd -m standalone
+访问地址：http://localhost:8848/nacos/index.html用户名密码默认nacos
+
+dubbo的负载均衡算法一共有5中，默认是随机算法：
+dubbo内置五种负载均衡策略:
+
+Random 随机(默认)
+RoundRobin 轮询
+LeastActive 最小活跃订阅数
+ConsistentHash 一致性hash
+ShortestResponse 最短响应时间(不知道为啥官网没有文档)
+消费端配置示例：dubbo.consumer.loadbalance=roundrobin
+注解配置：@DubboReference(loadbalance = "LeastActive")
+==========================maven 打包 插件plugin=============
+<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.rquest.valuation.StartService</mainClass>
+								</transformer>
+							</transformers>
+							<minimizeJar>false</minimizeJar>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+=================================spring-boot junit test 例子============
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:beans.xml")
+@SpringBootTest
+
+	@Test
+	public void test1() {
+		Valuation.valuateOneInstrument("FX_OPTION_fx_option_012", "FX_OPTION_fx_option_012_A");
+	}
+	
+=====================线程池使用示例==========================
+ThreadFactory threadFactory = new ThreadFactoryBuilder()
+                        .setNameFormat(threadNamePrefix + "-%d")
+                        .setDaemon(true).build();
+ExecutorService threadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.MINUTES, workQueue, threadFactory)
+2、自己实现 ThreadFactor。
+
+
+1、创建线程池
+private static final int CORE_POOL_SIZE = 4;
+	private static final int MAX_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2;
+	private static final Long KEEP_ALIVE_TIME = 10L;
+private LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();//默认使用Integer.MAXVALUE
+	private ThreadPoolExecutor fixedThreadPool = new ThreadPoolExecutor(
+			CORE_POOL_SIZE,
+			MAX_POOL_SIZE, 
+			KEEP_ALIVE_TIME, 
+			TimeUnit.SECONDS,
+			queue,
+			new ThreadPoolExecutor.CallerRunsPolicy());
+
+2、添加任务
+		fixedThreadPool.execute(() -> {任务});//submit可以有返回值
+
+==================nacos==========ribbon 获取所有IP端口=================
+ribbon 获取多有IP端口：
+public static List<Server> getServerList(){
+			SpringClientFactory springClientFactory = ApplicationContextUtility.getApplicationContext().getBean(SpringClientFactory.class);
+	        ILoadBalancer loadBalancer = springClientFactory.getLoadBalancer("valuationService");
+	        List<Server> servers = loadBalancer.getReachableServers();
+	        return servers;
+		}
+
+=======================================centos 安装elasticsearch=====================
+
+
+
+===============poi 支持Excel 导出指定数字或其他格式的方式：============
+例如数字格式的设置：
+CellStyle sty = workbook.createCellStyle();
+						DataFormat df = workbook.createDataFormat();
+						sty.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+						detailCell.setCellStyle(sty);
+						detailCell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);	
+	在放值时需转换一下：detailCell.setCellValue(Double.parseDouble(val.replace(",", "")));
+	
+==============eclipse 发布到远程Tomcat =========wagon插件使用==========
+1. 远程部署jar /war 到Tomcat，wagon使用步骤
+  1、引入profiles,环境配置在build 标签外面：
+      
+      		<profiles>
+			 <profile>
+	            <!-- 开发环境 -->
+	            <id>dev</id>
+	            <properties>
+	                <user>huangchao</user>
+	                <password>huangchao</password>
+	                <ip>192.168.22.200</ip>
+	                <active>dev</active>
+	            </properties>
+	            <activation>
+	                <activeByDefault>true</activeByDefault>
+	            </activation>
+	        </profile>
+		</profiles>
+  
+  2、build 标签内添加扩展依赖：
+      
+       <!-- maven扩展 提供ssh远程服务 是wagon-maven-plugin插件所依赖 -->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.8</version>
+            </extension>
+        </extensions>
+        
+   3、build 标签内添加执行相关内容
+       
+       <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <!-- 拷贝目录下(执行目录) target目录下的jar包 ,执行命令：mvn clean package wagon:upload-single wagon:sshexec--> 
+                    <!-- 拷贝目录下(执行目录) target目录下的jar包 ,执行命令（不执行command）：mvn clean package wagon:upload-single--> 
+                    <fromFile>target/MRMS.war</fromFile>
+                    <!-- 使用scp传输文件 指定服务端 用户名密码 ip 并指定目标文件夹-->
+                    <url>scp://${user}:${password}@${ip}/home/huangchao/apache-tomcat-8.5.9/webapps</url>
+                    <!-- 命令列表 可以在传输完成后执行 -->
+                    <commands>
+<!--                         <command>systemctl restart boot-server</command> -->
+                    </commands>
+                    <!-- 显示运行命令的输出结果 -->
+                    <displayCommandOutputs>true</displayCommandOutputs>
+                </configuration>
+            </plugin>
+
+   3、执行命令：
+   
+	先打包，执行mvn clean package
+
+	再上传打包的文件，执行：wagon:upload-single
+
+	执行shell 命令（脚本），主要是停止、删除原来的服务，启动新的服务，执行：wagon:shexec	
+	=====================nexus 私服部署存储位置：/root/sonatype-work/nexus==============================
+	
+===========eclipse 代码模板添加-preference java-Editor-template:例如log4j模板添加：===
+
+${:import(org.slf4j.Logger,org.slf4j.LoggerFactory)}
+private static final Logger ${log} = LoggerFactory.getLogger(${enclosing_type}.class);
+
+================MapStruct 对象拷贝记录===================
+深拷贝对象： CustomerDto customer = Cloner.MAPPER.clone( customerDto );
+
+谷歌chromedriver 下载地址： https://code.google.com/p/chromedriver/downloads/list
+火狐geckodriver 下载地址：https://github.com/mozilla/geckodriver/releases/
+
+====================================Win10系统下如何禁止其他用户安装软件？
+1、Win+R打开运行win10其他用户，在运行中输入gpedit.msc，打开组策略；
+
+2、计算机配置-》Windows设置-》安全设置-》本地策略-》安全选项-》用户帐户控制：管理审批模式下管理员的提升提示行为-》修改成“提示凭据”；
+
+
+==========================vaadin打包================
+进入项目所在根目录打开cmd 执行以下命令打包
+mvn clean package -Pproduction
+
+
+// 定义一个计数器
+StopWatch stopWatch = new StopWatch("统一一组任务耗时");
+// 统计任务一耗时
+stopWatch.start("任务一");
+TimeUnit.SECONDS.sleep(1);
+stopWatch.stop();
+ 
+// 统计任务二耗时
+stopWatch.start("任务二");
+TimeUnit.SECONDS.sleep(2);
+stopWatch.stop();
+ 
+// 打印出耗时
+String result = stopWatch.prettyPrint();
+System.err.println(result);
+
+
+
+
+
+
+
+
+
+
+	

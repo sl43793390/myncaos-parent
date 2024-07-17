@@ -1,0 +1,16 @@
+{
+  "frontendFolder": "D:/idea-workspace/myncaos-parent/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "D:/idea-workspace/myncaos-parent/./frontend/generated/jar-resources",
+  "staticOutput": "D:/idea-workspace/myncaos-parent/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "D:\\idea-workspace\\myncaos-parent\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "D:\\idea-workspace\\myncaos-parent\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "jarResourcesFolder": "D:/idea-workspace/myncaos-parent/./frontend/generated/jar-resources",
+  "generatedFlowImportsFolder": "target/frontend",
+  "themeName": "mytodo",
+  "clientServiceWorkerSource": "D:\\idea-workspace\\myncaos-parent\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/my-nacos-api/my-nacos-api.iml" filepath="$PROJECT_DIR$/my-nacos-api/my-nacos-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-nacos-client/my-nacos-client.iml" filepath="$PROJECT_DIR$/my-nacos-client/my-nacos-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-nacos/my-nacos-mock-server.iml" filepath="$PROJECT_DIR$/my-nacos/my-nacos-mock-server.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,5 @@
+# Project exclude paths
+/my-nacos-api/target/
+/my-nacos-client/target/
+/my-nacos-consumer-demo/target/
+/my-nacos-provider-demo/target/
